@@ -36,7 +36,7 @@ public abstract class mgSQLiteDataHelper {
             if (conn != null)
                 conn.close();
         } catch (Exception e) {
-            throw new mgAppException(e, "SQLiteDataHelper", "Fallo la conecci�n con la base de datos");
+            throw new mgAppException(e, "SQLiteDataHelper", "Fallo la conecciï¿½n con la base de datos");
         }
     }
 
@@ -95,6 +95,54 @@ public abstract class mgSQLiteDataHelper {
         }
         return sb.toString();
     }
+
+    public static void mgCrearTablas() throws mgAppException {
+        String[] sqlQueries = {
+            "CREATE TABLE IF NOT EXISTS MG_USUARIOS (" +
+                "IdUsuario INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                "Usuario VARCHAR(30) UNIQUE NOT NULL," +
+                "Contrasenia VARCHAR(10) NOT NULL);",
+
+            "CREATE TABLE IF NOT EXISTS JUNTO (" +
+                "Usuario VARCHAR(30) UNIQUE NOT NULL," +
+                "TipoCoordenada VARCHAR(10) NOT NULL," +
+                "Coordenada VARCHAR(10) NOT NULL," +
+                "Arsenal VARCHAR(10) NOT NULL," +
+                "Dia VARCHAR(10) NOT NULL," +
+                "Hora VARCHAR(10) NOT NULL);",
+
+            "CREATE TABLE IF NOT EXISTS Coordenada (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Coordenada VARCHAR(2));",
+
+            "CREATE TABLE IF NOT EXISTS CoordenadaTipo (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "CoordenadaTipo VARCHAR(20));",
+
+            "CREATE TABLE IF NOT EXISTS Arsenal (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "TipoArsenal VARCHAR(50));",
+
+            "CREATE TABLE IF NOT EXISTS Horarios (" +
+                "Lunes VARCHAR(5)," +
+                "Martes VARCHAR(5)," +
+                "Miercoles VARCHAR(5)," +
+                "Jueves VARCHAR(5)," +
+                "Viernes VARCHAR(5)," +
+                "HorariosID INTEGER PRIMARY KEY AUTOINCREMENT);"
+        };
+
+        try (Connection conn = mgSQLiteDataHelper.openConnection()) {
+            for (String sql : sqlQueries) {
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
   
 }
