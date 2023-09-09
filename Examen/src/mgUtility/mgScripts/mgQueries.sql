@@ -63,3 +63,38 @@ DROP TABLE Arsenal;
 DROP TABLE Coordenada;
 DROP TABLE CoordenadaTipo;
 DROP TABLE Horarios;
+DROP TABLE TablaJoin;
+CREATE TABLE IF NOT EXISTS TablaJoin (
+    Coordenada VARCHAR(2),
+    CoordenadaTipo VARCHAR(20),
+    TipoArsenal VARCHAR(20),
+    Lunes VARCHAR(5),
+    Martes VARCHAR(5),
+    Miercoles VARCHAR(5),
+    Jueves VARCHAR(5),
+    Viernes VARCHAR(5)
+);
+
+
+-- INSERT INTO TablaJoin (Coordenada, CoordenadaTipo, TipoArsenal, Lunes, Martes, Miercoles, Jueves, Viernes)
+-- SELECT
+--     C.Coordenada,
+--     CT.CoordenadaTipo,
+--     A.TipoArsenal,
+--     H.Lunes,
+--     H.Martes,
+--     H.Miercoles,
+--     H.Jueves,
+--     H.Viernes
+-- FROM
+--     Coordenada AS C
+-- INNER JOIN
+--     CoordenadaTipo AS CT ON C.id = CT.id
+-- INNER JOIN
+--     Arsenal AS A ON CT.id = A.id
+-- INNER JOIN
+--     Horarios AS H ON A.id = H.HorariosID;
+
+
+
+

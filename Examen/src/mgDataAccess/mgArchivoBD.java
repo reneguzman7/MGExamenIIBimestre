@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+
 import mgBusinessLogic.mgConvertirArsenal;
 
 public class mgArchivoBD extends mgConvertirArsenal {
@@ -13,7 +14,19 @@ public class mgArchivoBD extends mgConvertirArsenal {
     public static void mgCargarDatosABaseDeDatos(String csvFilePath) {
         String line;
         String csvSplitBy = ";";
+        System.out.println("[+] Leyendo: ");
+        System.out.println("\t - Coordenadas... ");
+        System.out.println("\t - Tipo de Coordenadas... ");
+        System.out.println("\t - Arsenal... ");
+        System.out.println("\t - Horarios... ");
 
+        System.out.println("[+] Guardando: ");
+        System.out.println("\t - Coordenadas... ");
+        System.out.println("\t - Tipo de Coordenadas... ");
+        System.out.println("\t - Arsenal... ");
+        System.out.println("\t - Horarios... ");
+
+    
         try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
                 Connection connection = mgSQLiteDataHelper.openConnection()) {
 

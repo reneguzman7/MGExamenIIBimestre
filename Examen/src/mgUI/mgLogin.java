@@ -19,7 +19,7 @@ public class mgLogin {
     public static final String mgCedula1 = "1750366286";
     public static final String mgNombre1 = "Rene Alejandro Guzman Moreira";
     public static final String mgCorreo1 = "rene.guzman@epn.edu.ec";
-    static String mgUsuarioLogeado;
+    public static String mgUsuarioLogeado;
 
     public static boolean mgLogin() {
         int Intentos = 1;
