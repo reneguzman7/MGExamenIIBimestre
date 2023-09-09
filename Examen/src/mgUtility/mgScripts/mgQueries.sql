@@ -13,15 +13,7 @@ CREATE TABLE IF NOT EXISTS  MG_USUARIOS
     Contrasenia VARCHAR(10) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS  JUNTO
-(
-    Usuario VARCHAR(30) UNIQUE NOT NULL,
-    Tipo Coordenada VARCHAR(10) NOT NULL
-    Coordenada VARCHAR(10) NOT NULL
-    Arsenal VARCHAR(10) NOT NULL
-    Dia VARCHAR(10) NOT NULL
-    Hora VARCHAR(10) NOT NULL
-); 
+
 
 -- Tabla Coordenada
 CREATE TABLE IF NOT EXISTS Coordenada (
@@ -51,29 +43,40 @@ CREATE TABLE IF NOT EXISTS Horarios (
                                         HorariosID INTEGER PRIMARY KEY AUTOINCREMENT
 );
 
--- Inserta los datos en la tabla JUNTO
-INSERT INTO JUNTO (Usuario, TipoCoordenada, Coordenada, Arsenal, Dia, Hora) VALUES
-('Harryson', 'Coord_South', '00', 'Avion', '', ''),
-('Harryson', 'Coord_North', '05', 'abcdt', 'Viernes', '05-10'),
-('Harryson', 'Coord_East', '06', 'abcdt', 'Jueves', '04-08'),
-('Harryson', 'Coord_East', '06', 'abcdt', 'Jueves', '04-08'),
-('Harryson', 'Coord_East', '06', 'abcdt', 'Jueves', '04-08'),
-('Harryson', 'Coord_North', '09', 'ab', 'Lunes', '01-02'),
-('Harryson', 'Coord_East', '02', '02-04', '', '', '', '02-04'),
-('Harryson', 'Coord_East', '02', '02-04', '', '', '', 'ab'),
-('Harryson', 'Coord_North', '07', '', '03-06', '', '', 'abcd'),
-('Harryson', 'Coord_North', '01', '', '', '', '', 'a'),
+CREATE TABLE IF NOT EXISTS  TablaJoin
+(
+    Usuario VARCHAR(30) NOT NULL,
+    Tipo_Coordenada VARCHAR(10) NOT NULL,
+    Coordenada VARCHAR(10) NOT NULL,
+    Arsenal VARCHAR(50) NOT NULL,
+    Dia VARCHAR(10) ,
+    Hora VARCHAR(10)
+);
 
-('rene', 'Coord_South', '', '', '', '', 'a'),
-('rene', 'Coord_North', '', '', '', '', '05-10', 'abcdt'),
-('rene', 'Coord_East', '', '', '', '04-08', '', 'abcdt'),
-('rene', 'Coord_East', '', '', '', '04-08', '', 'abcdt'),
-('rene', 'Coord_East', '', '', '', '04-08', '', 'abcdt'),
-('rene', 'Coord_North', '01-02', '', '', '', '', 'ab'),
-('rene', 'Coord_East', '', '02-04', '', '', '', 'ab'),
-('rene', 'Coord_East', '', '02-04', '', '', '', 'ab'),
-('rene', 'Coord_North', '', '', '03-06', '', '', 'abcd'),
-('rene', 'Coord_North', '01-02', '', '', '', '', 'a');
+-- Inserta los datos en la tabla JUNTO
+INSERT INTO TablaJoin (Usuario, Tipo_Coordenada, Coordenada, Arsenal, Dia, Hora) VALUES
+('harryson.montesdeoca@epn.edu.ec', 'South', '00', 'Avion', '', ''),
+('harryson.montesdeoca@epn.edu.ec', 'North', '05', 'Avion,Barco,Convoy,Dron,Tanque', 'Viernes', '05-10'),
+('harryson.montesdeoca@epn.edu.ec', 'East', '06', 'Avion,Barco,Convoy,Dron,Tanque', 'Jueves', '04-08'),
+('harryson.montesdeoca@epn.edu.ec', 'East', '06', 'Avion,Barco,Convoy,Dron,Tanque', 'Jueves', '04-08'),
+('harryson.montesdeoca@epn.edu.ec', 'East', '06', 'Avion,Barco,Convoy,Dron,Tanque', 'Jueves', '04-08'),
+('harryson.montesdeoca@epn.edu.ec', 'North', '09', 'Avion,Barco', 'Lunes', '01-02'),
+('harryson.montesdeoca@epn.edu.ec', 'East', '02', 'Avion,Barco', 'Martes', '02-04'),
+('harryson.montesdeoca@epn.edu.ec', 'East', '02', 'Avion,Barco', 'Martes', '02-04'),
+('harryson.montesdeoca@epn.edu.ec', 'North', '07', 'Avion,Barco,Convoy,Dron', 'Miercoles', '03-06'),
+('harryson.montesdeoca@epn.edu.ec', 'North', '01', 'Avion','Lunes', '01-02'),
+
+('rene.guzman@epn.edu.ec', 'East', '06', 'Avion,Barco,Convoy,Dron,Tanque', 'Jueves', '04-08'),
+('rene.guzman@epn.edu.ec', 'North', '08', 'Avion,Barco,Convoy', 'Miercoles', '02-04'),
+('rene.guzman@epn.edu.ec', 'East', '02', 'Avion,Barco', 'Martes', '02-04'),
+('rene.guzman@epn.edu.ec', 'East', '06', 'Avion,Barco,Convoy,Dron,Tanque', 'Jueves', '04-08'),
+('rene.guzman@epn.edu.ec', 'East', '06', 'Avion,Barco,Convoy,Dron,Tanque', 'Jueves', '04-08'),
+('rene.guzman@epn.edu.ec', 'North', '03', 'Avion,Barco,Convoy','Miercoles', '03-06'),
+('rene.guzman@epn.edu.ec', 'South', '00', 'Avion', '', ''),
+('rene.guzman@epn.edu.ec', 'North', '05', 'Avion,Barco,Convoy,Dron,Tanque', 'Viernes', '05-10'),
+('rene.guzman@epn.edu.ec', 'North', '07', 'Avion,Barco,Convoy,Dron', 'Miercoles', '03-06'),
+('rene.guzman@epn.edu.ec', 'North', '01', 'Avion','Lunes', '01-02');
+
 
 
 --Queries de usuarios con claves encriptadas con MD5
@@ -89,6 +92,24 @@ DROP TABLE Arsenal;
 DROP TABLE Coordenada;
 DROP TABLE CoordenadaTipo;
 DROP TABLE Horarios;
+
+SELECT
+    MGU.Usuario AS Usuario,
+    CDT.CoordenadaTipo AS TipoCoordenada,
+    C.Coordenada AS Coordenada,
+    A.TipoArsenal AS Arsenal,
+    H.Dia AS Dia,
+    H.Hora AS Hora
+FROM
+    MG_USUARIOS MGU
+INNER JOIN
+    Coordenada C ON MGU.IdUsuario = C.UsuarioId
+INNER JOIN
+    Arsenal A ON C.id = A.CoordenadaId
+INNER JOIN
+    Horarios H ON A.id = H.ArsenalId
+INNER JOIN
+    CoordenadaTipo CDT ON C.CoordenadaTipo = CDT.CoordenadaTipo;
 
 
 

@@ -7,26 +7,42 @@ import java.sql.PreparedStatement;
 
 import mgBusinessLogic.mgConvertirArsenal;
 
+/**
+ * La clase mgArchivoBD se encarga de cargar datos desde un archivo CSV en una base de datos SQLite.
+ */
 public class mgArchivoBD extends mgConvertirArsenal {
 
+    // Ruta del archivo CSV a cargar
     public static String mgRutaArchivo = "Examen\\mgArchivo\\MontesdeocaGuzman.csv";
 
+    /**
+     * Carga los datos desde un archivo CSV en una base de datos SQLite.
+     *
+     * @param csvFilePath Ruta del archivo CSV que contiene los datos a cargar.
+     */
     public static void mgCargarDatosABaseDeDatos(String csvFilePath) {
         String line;
         String csvSplitBy = ";";
         System.out.println("[+] Leyendo: ");
         System.out.println("\t - Coordenadas... ");
+        mgpausa(200);
         System.out.println("\t - Tipo de Coordenadas... ");
+        mgpausa(200);
         System.out.println("\t - Arsenal... ");
+        mgpausa(200);
         System.out.println("\t - Horarios... ");
-
+        mgpausa(200);
         System.out.println("[+] Guardando: ");
         System.out.println("\t - Coordenadas... ");
+        mgpausa(200);
         System.out.println("\t - Tipo de Coordenadas... ");
+        mgpausa(200);
         System.out.println("\t - Arsenal... ");
+        mgpausa(200);
         System.out.println("\t - Horarios... ");
-
+        mgpausa(200);
     
+
         try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
                 Connection connection = mgSQLiteDataHelper.openConnection()) {
 
@@ -43,7 +59,7 @@ public class mgArchivoBD extends mgConvertirArsenal {
                     String viernes = data[6];
                     String tipoArsenal = data[7];
 
-                     // Convierte las letras a palabras en la columna TipoArsenal
+                    // Convierte las letras a palabras en la columna TipoArsenal
                     tipoArsenal = reemplazarLetrasConPalabras(tipoArsenal);
 
                     // Inserta en la tabla Coordenada
@@ -77,11 +93,22 @@ public class mgArchivoBD extends mgConvertirArsenal {
                 }
             }
 
-            System.out.println("Datos CSV importados con exito.");
+            System.out.println("Tablas Creadas y Actualizadas!!!");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Pausa la ejecución del programa durante un tiempo determinado en milisegundos.
+     *
+     * @param milisegundos El tiempo en milisegundos.
+     */
+    public static void mgpausa(int milisegundos) {
+        try {
+            Thread.sleep(milisegundos);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
