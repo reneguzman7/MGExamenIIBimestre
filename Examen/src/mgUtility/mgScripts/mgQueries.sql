@@ -62,3 +62,32 @@ DROP TABLE Arsenal;
 DROP TABLE Coordenada;
 DROP TABLE CoordenadaTipo;
 DROP TABLE Horarios;
+
+
+SELECT
+    MG_USUARIOS.Usuario AS Usuario,
+    CoordenadaTipo.CoordenadaTipo AS "Tipo coordenada",
+    Coordenada.Coordenada AS "Coordenada",
+    Arsenal.TipoArsenal AS "Arsenal"
+FROM
+    MG_USUARIOS
+INNER JOIN
+    Coordenada ON MG_USUARIOS.IdUsuario = Coordenada.UsuarioId
+INNER JOIN
+    CoordenadaTipo ON Coordenada.CoordenadaTipo = CoordenadaTipo.id
+INNER JOIN
+    Arsenal ON Coordenada.id = Arsenal.CoordenadaId;
+
+SELECT
+    MG_USUARIOS.Usuario AS Usuario,
+    CoordenadaTipo.CoordenadaTipo AS "Tipo coordenada",
+    Coordenada.Coordenada AS "Coordenada",
+    Arsenal.TipoArsenal AS "Arsenal"
+FROM
+    MG_USUARIOS
+INNER JOIN
+    Coordenada ON MG_USUARIOS.IdUsuario = Coordenada.UsuarioId
+INNER JOIN
+    CoordenadaTipo ON Coordenada.CoordenadaTipo = CoordenadaTipo.id
+INNER JOIN
+    Arsenal ON Coordenada.id = Arsenal.CoordenadaId;
