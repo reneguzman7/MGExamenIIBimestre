@@ -12,7 +12,7 @@ import mgFramework.mgAppException;
 
 public abstract class mgSQLiteDataHelper {
 
-    private static final String DBPathConnection = "jdbc:sqlite:database\\MG-ARSENAL-DB.db";
+    private static final String DBPathConnection = "jdbc:sqlite:Examen\\database\\MG-EXAMEN-DB.db";
     private static final String SELECT_QUERY_AUTENTICACION = "SELECT * FROM credenciales WHERE usuario = ? and contrasena = ?";
     private static Connection conn = null;
 
@@ -36,7 +36,7 @@ public abstract class mgSQLiteDataHelper {
             if (conn != null)
                 conn.close();
         } catch (Exception e) {
-            throw new mgAppException(e, "SQLiteDataHelper", "Fallo la conección con la base de datos");
+            throw new mgAppException(e, "SQLiteDataHelper", "Fallo la conecciï¿½n con la base de datos");
         }
     }
 
@@ -84,26 +84,6 @@ public abstract class mgSQLiteDataHelper {
         return false;
     }
 
-    public static void mgInsertarUsuario(String nombreUsuario, String contrasena) {
-        try {
-            String contrasenaEncriptada = mgEncriptarMD5(contrasena);
-
-            // Obtener una conexión existente desde el método openConnection
-            Connection connection = openConnection();
-
-            String insertQuery = "INSERT INTO usuarios (nombre_usuario, contrasena) VALUES (?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
-            preparedStatement.setString(1, nombreUsuario);
-            preparedStatement.setString(2, contrasenaEncriptada);
-            preparedStatement.executeUpdate();
-
-            // No cierres la conexión aquí, ya que es compartida y debe cerrarse en otro
-            // lugar
-
-        } catch (NoSuchAlgorithmException | SQLException | mgAppException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static String mgEncriptarMD5(String texto) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
@@ -115,4 +95,6 @@ public abstract class mgSQLiteDataHelper {
         }
         return sb.toString();
     }
+
+  
 }

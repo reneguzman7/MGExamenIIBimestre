@@ -1,10 +1,10 @@
 import java.security.NoSuchAlgorithmException;
 
-import mgUI.mgLogin;
+import mgDataAccess.mgArchivoBD;
 
 public class App {
     public static void main(String[] args) throws Exception, NoSuchAlgorithmException {
-        mgLogin.mgLogin();
-        
+        // mgLogin.mgLogin();
+        mgArchivoBD.mgCargarDatosABaseDeDatos(mgArchivoBD.mgRutaArchivo);
     }
 }

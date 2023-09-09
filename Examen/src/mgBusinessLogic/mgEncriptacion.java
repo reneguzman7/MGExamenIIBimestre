@@ -14,8 +14,8 @@ public class mgEncriptacion{
         return sb.toString();
     }
 
-    public static String mgEncriptarClaves(String mgEntrada) {
-        System.out.println("");
+//     public static String mgEncriptarClaves(String mgEntrada) {
+//         System.out.println("");
 
-    }
-}
+//     }
+// }

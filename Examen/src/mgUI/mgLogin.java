@@ -15,9 +15,9 @@ public class mgLogin {
     static String mgUsuarioLogeado;
 
     /**
-     * Realiza el proceso de inicio de sesión.
+     * Realiza el proceso de inicio de sesion.
      *
-     * @return true si el inicio de sesión es exitoso, false en caso contrario.
+     * @return true si el inicio de sesion es exitoso, false en caso contrario.
      */
     public static boolean mgLogin() {
         String mgUsuarioProfe = "profe";
@@ -38,8 +38,8 @@ public class mgLogin {
             System.out.println();
             System.out.print("+ Clave: ");
             String Clave = mg.nextLine();
-            String hiddenClave = mghidePassword(Clave); // Oculta la contraseña
-            System.out.println(hiddenClave); // Muestra la contraseña oculta
+            String hiddenClave = mghidePassword(Clave); // Oculta la contraseï¿½a
+            System.out.println(hiddenClave); // Muestra la contraseï¿½a oculta
             System.out.println("------------------------");
             System.out.print("* Numero de Intentos: " + Intentos);
             System.out.println();
@@ -63,8 +63,8 @@ public class mgLogin {
     }
     
     /**
-     * <b>hidePassword</b>: Esta funcion nos permite esconder la contraseña 
-     * @param password: Contraseña ingresada por el usuario
+     * <b>hidePassword</b>: Esta funcion nos permite esconder la contraseï¿½a 
+     * @param password: Contraseï¿½a ingresada por el usuario
      * @return
      */
     private static String mghidePassword(String password) {
