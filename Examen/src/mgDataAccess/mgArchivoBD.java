@@ -4,42 +4,64 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import mgBusinessLogic.mgConvertirArsenal;
 
-// import DataAccess.SQLiteDataHelper;
-// import Framework.AppException;
-
-public class mgArchivoBD {
+public class mgArchivoBD extends mgConvertirArsenal {
 
     public static String mgRutaArchivo = "Examen\\mgArchivo\\MontesdeocaGuzman.csv";
 
     public static void mgCargarDatosABaseDeDatos(String csvFilePath) {
-
         String line;
-        String csvSplitBy = ";"; 
-
-       
+        String csvSplitBy = ";";
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
                 Connection connection = mgSQLiteDataHelper.openConnection()) {
 
-            String insertQuery = "INSERT INTO MG_DATOS_ATAQUE (Coordenada, CoordenadaTipo, Lunes, Martes, Miercoles, Jueves, Viernes, TipoArsenal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
-
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(csvSplitBy);
 
-                // Configura los valores para la consulta preparada
-                preparedStatement.setString(1, data[0]);
-                preparedStatement.setString(2, data[1]);
-                preparedStatement.setString(3, data[2]);
-                preparedStatement.setString(4, data[3]);
-                preparedStatement.setString(5, data[4]);
-                preparedStatement.setString(6, data[5]);
-                preparedStatement.setString(7, data[6]);
-                preparedStatement.setString(8, data[7]);
-            
-                preparedStatement.executeUpdate();
+                if (data.length >= 8) {
+                    String coordenada = data[0];
+                    String coordenadaTipo = data[1];
+                    String lunes = data[2];
+                    String martes = data[3];
+                    String miercoles = data[4];
+                    String jueves = data[5];
+                    String viernes = data[6];
+                    String tipoArsenal = data[7];
+
+                     // Convierte las letras a palabras en la columna TipoArsenal
+                    tipoArsenal = reemplazarLetrasConPalabras(tipoArsenal);
+
+                    // Inserta en la tabla Coordenada
+                    String insertCoordenadaQuery = "INSERT INTO Coordenada (Coordenada) VALUES (?)";
+                    PreparedStatement preparedStatementCoordenada = connection.prepareStatement(insertCoordenadaQuery);
+                    preparedStatementCoordenada.setString(1, coordenada);
+                    preparedStatementCoordenada.executeUpdate();
+
+                    // Inserta en la tabla CoordenadaTipo
+                    String insertCoordenadaTipoQuery = "INSERT INTO CoordenadaTipo (CoordenadaTipo) VALUES (?)";
+                    PreparedStatement preparedStatementCoordenadaTipo = connection
+                            .prepareStatement(insertCoordenadaTipoQuery);
+                    preparedStatementCoordenadaTipo.setString(1, coordenadaTipo);
+                    preparedStatementCoordenadaTipo.executeUpdate();
+
+                    // Inserta en la tabla Arsenal
+                    String insertArsenalQuery = "INSERT INTO Arsenal (TipoArsenal) VALUES (?)";
+                    PreparedStatement preparedStatementArsenal = connection.prepareStatement(insertArsenalQuery);
+                    preparedStatementArsenal.setString(1, tipoArsenal);
+                    preparedStatementArsenal.executeUpdate();
+
+                    // Inserta en la tabla Horarios
+                    String insertHorariosQuery = "INSERT INTO Horarios (Lunes, Martes, Miercoles, Jueves, Viernes) VALUES (?, ?, ?, ?, ?)";
+                    PreparedStatement preparedStatementHorarios = connection.prepareStatement(insertHorariosQuery);
+                    preparedStatementHorarios.setString(1, lunes);
+                    preparedStatementHorarios.setString(2, martes);
+                    preparedStatementHorarios.setString(3, miercoles);
+                    preparedStatementHorarios.setString(4, jueves);
+                    preparedStatementHorarios.setString(5, viernes);
+                    preparedStatementHorarios.executeUpdate();
+                }
             }
 
             System.out.println("Datos CSV importados con exito.");

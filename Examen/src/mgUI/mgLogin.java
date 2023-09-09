@@ -1,11 +1,18 @@
 package mgUI;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import mgUtility.Utility;
 
 public class mgLogin {
-    public static Scanner mg= new Scanner(System.in);
+    public static Scanner mg = new Scanner(System.in);
     public static final String mgCedula = "1722966650";
     public static final String mgNombre = "Harryson Ariel Montesdeoca Rhea";
     public static final String mgCorreo = "harryson.montesdeoca@epn.edu.ec";
@@ -14,14 +21,7 @@ public class mgLogin {
     public static final String mgCorreo1 = "rene.guzman@epn.edu.ec";
     static String mgUsuarioLogeado;
 
-    /**
-     * Realiza el proceso de inicio de sesion.
-     *
-     * @return true si el inicio de sesion es exitoso, false en caso contrario.
-     */
     public static boolean mgLogin() {
-        String mgUsuarioProfe = "profe";
-        String mgClaveProfe = "1234";
         int Intentos = 1;
         while (Intentos <= 3) {
             Utility.borrarConsola();
@@ -38,20 +38,27 @@ public class mgLogin {
             System.out.println();
             System.out.print("+ Clave: ");
             String Clave = mg.nextLine();
-            String hiddenClave = mghidePassword(Clave); // Oculta la contrase�a
-            System.out.println(hiddenClave); // Muestra la contrase�a oculta
+            String ClaveEncriptada = mgEncriptarMD5(Clave); // Encripta la contraseÃ±a ingresada
+
+            System.out.println();
             System.out.println("------------------------");
             System.out.print("* Numero de Intentos: " + Intentos);
             System.out.println();
-            // pausa(1000);
-            if ((mgUsuarioLogeado.equals(mgCorreo) && Clave.equals(mgCedula))
-                    || mgUsuarioLogeado.equals(mgUsuarioProfe) && Clave.equals(mgClaveProfe)
-                    || (mgUsuarioLogeado.equals(mgCorreo1) && Clave.equals(mgCedula1))) {
+            
+            boolean credencialesValidas = false;
+            try {
+                credencialesValidas = validarCredenciales(mgUsuarioLogeado, ClaveEncriptada); // Compara con la contraseÃ±a encriptada
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            
+            if (credencialesValidas) {
                 System.out.println("Bienvenido " + mgUsuarioLogeado.toUpperCase());
                 System.out.println("\nPress Any Key to Continue...");
                 mg.nextLine();
                 return true;
             }
+            
             Intentos++;
         }
         System.out.println("\nLo sentimos, tu usuario y clave son incorrectos..!");
@@ -59,19 +66,59 @@ public class mgLogin {
 
         Utility.pausa(1000);
         System.exit(-1);
-        return true;
+        return false;
     }
-    
-    /**
-     * <b>hidePassword</b>: Esta funcion nos permite esconder la contrase�a 
-     * @param password: Contrase�a ingresada por el usuario
-     * @return
-     */
-    private static String mghidePassword(String password) {
-        StringBuilder hiddenPassword = new StringBuilder();
-        for (int i = 0; i < password.length(); i++) {
-            hiddenPassword.append("*");
+
+    // MÃ©todo para encriptar con MD5
+    public static String mgEncriptarMD5(String texto) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(texto.getBytes());
+            byte[] digest = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest) {
+                sb.append(String.format("%02x", b & 0xff));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            // Manejo de la excepciÃ³n NoSuchAlgorithmException
+            throw new RuntimeException("Error al encriptar: Algoritmo MD5 no disponible", e);
         }
-        return hiddenPassword.toString();
+    }
+
+    // MÃ©todo para validar las credenciales en SQLite
+    private static boolean validarCredenciales(String nombreUsuario, String contrasena) throws SQLException {
+        String DB_URL = "jdbc:sqlite:Examen\\database\\MG-EXAMEN-DB.db"; // Cambia la ruta a tu archivo SQLite
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DriverManager.getConnection(DB_URL);
+
+            String SELECT_QUERY_AUTENTICACION = "SELECT * FROM MG_USUARIOS WHERE Usuario = ? AND Contrasenia = ?";
+            preparedStatement = connection.prepareStatement(SELECT_QUERY_AUTENTICACION);
+            preparedStatement.setString(1, nombreUsuario);
+            preparedStatement.setString(2, contrasena);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return true;
+            }
+        } finally {
+            // Cierra los recursos
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return false;
     }
 }

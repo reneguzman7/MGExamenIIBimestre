@@ -1,3 +1,4 @@
+package mgBusinessLogic;
 public class mgConvertirArsenal {
     
     public static String reemplazarLetrasConPalabras(String input) {
