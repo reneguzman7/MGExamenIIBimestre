@@ -1,12 +1,12 @@
 -- Revisar el entorno de trabajo
 .version
 .database
-.show   
-.tables 
+.show
+.tables
 
 -- BORRAR TABLAS
 DROP TABLE MG_USUARIOS;
-DROP TABLE MG_DATOS_ATAQUE;
+
 
 
 --TABLA
@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS  MG_USUARIOS
 
 
 
-SELECT * FROM USER;
 
 
 --Queries de usuarios con claves encriptadas con MD5
@@ -31,70 +30,35 @@ INSERT INTO MG_USUARIOS (Usuario, Contrasenia) VALUES ("Paccha", "bd7042282fc9fd
 
 -- Tabla Coordenada
 CREATE TABLE IF NOT EXISTS Coordenada (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    Coordenada VARCHAR(2) 
+                                          id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                          Coordenada VARCHAR(2)
 );
 
 -- Tabla CoordenadaTipo
 CREATE TABLE IF NOT EXISTS CoordenadaTipo (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    CoordenadaTipo VARCHAR(20) 
+                                              id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                              CoordenadaTipo VARCHAR(20)
 );
 
 -- Tabla Arsenal
 CREATE TABLE IF NOT EXISTS Arsenal (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    TipoArsenal VARCHAR(50)
+                                       id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                       TipoArsenal VARCHAR(50)
 );
 
 
 
 -- Tabla Horarios
 CREATE TABLE IF NOT EXISTS Horarios (
-    Lunes VARCHAR(5),
-    Martes VARCHAR(5),
-    Miercoles VARCHAR(5),
-    Jueves VARCHAR(5),
-    Viernes VARCHAR(5),
-    HorariosID INTEGER PRIMARY KEY AUTOINCREMENT
+                                        Lunes VARCHAR(5),
+                                        Martes VARCHAR(5),
+                                        Miercoles VARCHAR(5),
+                                        Jueves VARCHAR(5),
+                                        Viernes VARCHAR(5),
+                                        HorariosID INTEGER PRIMARY KEY AUTOINCREMENT
 );
 
 DROP TABLE Arsenal;
 DROP TABLE Coordenada;
 DROP TABLE CoordenadaTipo;
 DROP TABLE Horarios;
-DROP TABLE TablaJoin;
-CREATE TABLE IF NOT EXISTS TablaJoin (
-    Coordenada VARCHAR(2),
-    CoordenadaTipo VARCHAR(20),
-    TipoArsenal VARCHAR(20),
-    Lunes VARCHAR(5),
-    Martes VARCHAR(5),
-    Miercoles VARCHAR(5),
-    Jueves VARCHAR(5),
-    Viernes VARCHAR(5)
-);
-
-
--- INSERT INTO TablaJoin (Coordenada, CoordenadaTipo, TipoArsenal, Lunes, Martes, Miercoles, Jueves, Viernes)
--- SELECT
---     C.Coordenada,
---     CT.CoordenadaTipo,
---     A.TipoArsenal,
---     H.Lunes,
---     H.Martes,
---     H.Miercoles,
---     H.Jueves,
---     H.Viernes
--- FROM
---     Coordenada AS C
--- INNER JOIN
---     CoordenadaTipo AS CT ON C.id = CT.id
--- INNER JOIN
---     Arsenal AS A ON CT.id = A.id
--- INNER JOIN
---     Horarios AS H ON A.id = H.HorariosID;
-
-
-
-

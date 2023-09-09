@@ -7,17 +7,16 @@ import java.sql.Statement;
 import javax.swing.SwingUtilities;
 
 import mgDataAccess.mgArchivoBD;
+import mgDataAccess.mgSQLiteDataHelper;
 import mgFramework.mgAppException;
 import mgUI.mgInterfaz;
 import mgUI.mgLogin;
-import mgDataAccess.mgSQLiteDataHelper;
-
 
 
 public class App extends mgArchivoBD {
     public static void main(String[] args) throws Exception, NoSuchAlgorithmException {
         mgLogin.mgLogin();
-        // mgArchivoBD.mgCargarDatosABaseDeDatos(mgArchivoBD.mgRutaArchivo);
+        mgArchivoBD.mgCargarDatosABaseDeDatos(mgArchivoBD.mgRutaArchivo);
 
         SwingUtilities.invokeLater(() -> {
             mgInterfaz frame = new mgInterfaz();
@@ -29,8 +28,17 @@ public class App extends mgArchivoBD {
             try {
                 Connection connection = mgSQLiteDataHelper.openConnection();
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement
-                        .executeQuery("SELECT Coordenada, CoordenadaTipo, TipoArsenal, Hora FROM TablaJoin");
+
+                // Query SQL para obtener los datos deseados mediante JOIN
+                String query = "SELECT MG_USUARIOS.Usuario, Coordenada.Coordenada, CoordenadaTipo.CoordenadaTipo, Arsenal.TipoArsenal, Horarios.Dia, Horarios.Hora "
+                        +
+                        "FROM MG_USUARIOS " +
+                        "INNER JOIN Coordenada ON MG_USUARIOS.CoordenadaID = Coordenada.id " +
+                        "INNER JOIN CoordenadaTipo ON MG_USUARIOS.CoordenadaTipoID = CoordenadaTipo.id " +
+                        "INNER JOIN Arsenal ON MG_USUARIOS.ArsenalID = Arsenal.id " +
+                        "INNER JOIN Horarios ON MG_USUARIOS.HorariosID = Horarios.HorariosID";
+
+                ResultSet resultSet = statement.executeQuery(query);
                 frame.updateTableData(resultSet);
                 connection.close();
             } catch (SQLException e) {
@@ -38,7 +46,8 @@ public class App extends mgArchivoBD {
             } catch (mgAppException e) {
                 e.printStackTrace();
             }
-
         });
+
+
     }
 }
