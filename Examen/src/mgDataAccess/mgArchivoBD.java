@@ -17,6 +17,8 @@ public class mgArchivoBD {
         String line;
         String csvSplitBy = ";"; 
 
+       
+
         try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
                 Connection connection = mgSQLiteDataHelper.openConnection()) {
 

@@ -1,19 +1,19 @@
-package Utilitario;
+package mgUtility;
 
 import java.util.Scanner;
 
 /**
- * Clase de utilidades que proporciona métodos comunes para la aplicación.
+ * Clase de utilidades que proporciona mï¿½todos comunes para la aplicaciï¿½n.
  */
 
 public class Utility {
     public static Scanner mg= new Scanner(System.in);
     
     /**
-     * Valida y solicita un número entero al usuario.
+     * Valida y solicita un nï¿½mero entero al usuario.
      *
-     * @param mensaje El mensaje que se muestra para solicitar el número.
-     * @return El número entero validado.
+     * @param mensaje El mensaje que se muestra para solicitar el nï¿½mero.
+     * @return El nï¿½mero entero validado.
      */
 
     public static int mgValidarNum(String mensaje) {
@@ -34,7 +34,7 @@ public class Utility {
         return numero;
     }
     /**
-     * Pausa la ejecución del programa durante un tiempo determinado en milisegundos.
+     * Pausa la ejecuciï¿½n del programa durante un tiempo determinado en milisegundos.
      *
      * @param milisegundos El tiempo en milisegundos.
      */

@@ -2,7 +2,7 @@ package mgUI;
 
 import java.util.Scanner;
 
-import Utilitario.Utility;
+import mgUtility.Utility;
 
 public class mgLogin {
     public static Scanner mg= new Scanner(System.in);
