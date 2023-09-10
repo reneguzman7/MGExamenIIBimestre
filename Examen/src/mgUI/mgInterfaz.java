@@ -1,72 +1,65 @@
 package mgUI;
 
-import java.awt.BorderLayout;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+public class mgInterfaz extends JFrame {
 
-public class mgInterfaz extends JFrame{
-    private JTable dataTable;
-    private JLabel userLabel;
+    private JTable table;
 
     public mgInterfaz() {
-        // Configura la ventana
-        setTitle("Consulta de Datos");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Formulario Ataques");
         setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Crea un panel para los componentes
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
-        // Crea una etiqueta para mostrar el usuario logeado
-        userLabel = new JLabel("Usuario: " + mgLogin.mgUsuarioLogeado.toUpperCase());
-        panel.add(userLabel, BorderLayout.NORTH);
-
-        // Crea una tabla para mostrar los datos
-        dataTable = new JTable();
-        panel.add(new JScrollPane(dataTable), BorderLayout.CENTER);
-
-        // Agrega el panel a la ventana
-        add(panel);
-    }
-
-    public void updateUserData(String username) {
-        userLabel.setText("Usuario: " + username);
-    }
-
-    public void updateTableData(ResultSet resultSet) {
-        // Convierte el ResultSet en un modelo de tabla
+        // Crear el modelo de tabla con columnas
         DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Usuario");
+        model.addColumn("Tipo_Coordenada");
         model.addColumn("Coordenada");
-        model.addColumn("CoordenadaTipo");
         model.addColumn("Arsenal");
         model.addColumn("Dia");
         model.addColumn("Hora");
 
+        // Conectar a la base de datos SQLite
         try {
-            while (resultSet.next()) {
-                String coordenada = resultSet.getString("Coordenada");
-                String coordenadaTipo = resultSet.getString("CoordenadaTipo");
-                String arsenal = resultSet.getString("TipoArsenal");
-                String dia = resultSet.getString("Dia");
-                String hora = resultSet.getString("Hora");
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:Examen\\database\\MG-EXAMEN-DB.db");
+            String query = "SELECT * FROM TablaJoin"; 
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-                model.addRow(new String[]{coordenada, coordenadaTipo, arsenal, dia, hora});
+            // Agregar filas a la tabla desde los datos de la base de datos
+            while (resultSet.next()) {
+                Vector<Object> row = new Vector<>();
+                row.add(resultSet.getString("Usuario")); 
+                row.add(resultSet.getString("Tipo_Coordenada"));
+                row.add(resultSet.getString("Coordenada"));
+                row.add(resultSet.getString("Arsenal"));
+                row.add(resultSet.getString("Dia"));
+                row.add(resultSet.getString("Hora"));
+                model.addRow(row);
             }
+
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        dataTable.setModel(model);
+        // Crear la tabla y agregar el modelo de datos
+        table = new JTable(model);
+
+        // Agregar la tabla a un JScrollPane para hacerla desplazable
+        JScrollPane scrollPane = new JScrollPane(table);
+        getContentPane().add(scrollPane);
     }
 
-    
 }
