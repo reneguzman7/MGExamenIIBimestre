@@ -93,6 +93,7 @@ DROP TABLE Coordenada;
 DROP TABLE CoordenadaTipo;
 DROP TABLE Horarios;
 
+
 SELECT
     MGU.Usuario AS Usuario,
     CDT.CoordenadaTipo AS TipoCoordenada,
@@ -110,6 +111,3 @@ INNER JOIN
     Horarios H ON A.id = H.ArsenalId
 INNER JOIN
     CoordenadaTipo CDT ON C.CoordenadaTipo = CDT.CoordenadaTipo;
-
-
-
