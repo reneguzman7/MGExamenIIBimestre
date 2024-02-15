@@ -13,12 +13,12 @@ import mgUtility.Utility;
 
 public class mgLogin {
     public static Scanner mg = new Scanner(System.in);
-    public static final String MG_CEDULA  = "1722966650";
-    public static final String MG_NOMBRE  = "Harryson Ariel Montesdeoca Rhea";
-    public static final String MG_CORREO  = "harryson.montesdeoca@epn.edu.ec";
-    public static final String MG_CEDULA1 = "1750366286";
-    public static final String MG_NOMBRE1 = "Rene Alejandro Guzman Moreira";
-    public static final String MG_CORREO1 = "rene.guzman@epn.edu.ec";
+    public static final String MG_CEDULA  = "####";
+    public static final String MG_NOMBRE  = "####";
+    public static final String MG_CORREO  = "####";
+    public static final String MG_CEDULA1 = "####";
+    public static final String MG_NOMBRE1 = "####";
+    public static final String MG_CORREO1 = "####";
     public static String mgUsuarioLogeado;
 
     /**
